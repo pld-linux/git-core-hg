@@ -1,3 +1,5 @@
+%bcond_with	tests
+
 Summary:	Git tools for working with mercurial repositories
 Name:		git-core-hg
 Version:	0.6
@@ -10,6 +12,10 @@ Source0:	https://github.com/felipec/git-remote-hg/archive/refs/tags/v%{version}.
 URL:		https://github.com/felipec/git-remote-hg
 BuildRequires:	rpm-pythonprov
 Requires:	git-core
+Requires:	mercurial >= 1.8
+%if %{with tests}
+BuildRequires:	mercurial >= 1.8
+%endif
 BuildArch:	noarch
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -26,6 +32,10 @@ Git tools for working with mercurial repositories.
 %build
 %{__make} \
 	V=1
+
+%if %{with tests}
+%{__make} test
+%endif
 
 %install
 rm -rf $RPM_BUILD_ROOT
